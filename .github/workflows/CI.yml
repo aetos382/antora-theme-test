@@ -45,6 +45,7 @@ jobs:
           type: 'zip'
           filename: ${{ env.TAG }}.zip
           directory: source
+          path: '**/*'
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
