@@ -22,7 +22,7 @@ jobs:
 
       - name: Setup environments
         run: |
-          echo "::set-env name=TAG::${{ github.ref }}#refs/tags/"
+          echo "::set-env name=TAG::${GITHUB_REF#refs/tags/}"
 
       - name: Setup node
         uses: actions/setup-node@v1
