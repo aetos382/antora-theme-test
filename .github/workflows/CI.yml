@@ -39,17 +39,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Archive release
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: ${{ env.TAG }}.zip
-          directory: source
-          path: '**/*'
-
       - name: zip
+        working-directory: source
         run: |
-          zip --version
+          zip -r9X "../${{ env.TAG }}.zip" .
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -57,7 +50,7 @@ jobs:
           title: Release ${{ env.TAG }}
           prerelease: true
           draft: true
-          files: '*.zip'
+          files: '${{ env.TAG }}.zip'
 
       - name: Archive artifact
         uses: actions/upload-artifact@v2
