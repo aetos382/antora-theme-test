@@ -39,9 +39,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Archive Release
+      - name: Archive release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: ${{ env.TAG }}.zip
           path: source
+
+      - name: Archive artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Zip package
+          path: ${{ env.TAG }}.zip
