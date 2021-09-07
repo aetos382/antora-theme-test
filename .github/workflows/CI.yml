@@ -46,6 +46,14 @@ jobs:
           filename: ${{ env.TAG }}.zip
           path: source
 
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          title: Release ${{ env.TAG }}
+          prerelease: true
+          draft: true
+          files: '*.zip'
+
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
