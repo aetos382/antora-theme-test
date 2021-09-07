@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    tags:
+        - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    strategy:
+      fail-fast: true
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup environments
+        run: |
+          echo "::set-env name=TAG::${{ github.ref }}#refs/tags/"
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - name: Cache node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.OS }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+          with:
+            type: 'zip'
+            filename: ${{ env.TAG }}.zip
+            path: source
