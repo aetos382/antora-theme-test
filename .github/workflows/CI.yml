@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: zip
+      - name: Create zip package
         working-directory: source
         run: |
           zip -r9X "../${{ env.TAG }}.zip" .
