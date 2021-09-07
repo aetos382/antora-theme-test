@@ -44,12 +44,12 @@ jobs:
         run: |
           zip -r9X "../${{ env.TAG }}.zip" .
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Create release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           title: Release ${{ env.TAG }}
           prerelease: true
-          draft: true
           files: '${{ env.TAG }}.zip'
 
       - name: Archive artifact
